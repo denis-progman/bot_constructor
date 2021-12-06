@@ -1,0 +1,18 @@
+{
+  "text": null,
+  "key": {
+    "name": "кнопка",
+    "action": {
+      "type": "to_step",
+      "target": "next",
+      "delay": 0
+    },
+    "type": "inline"
+  },
+  "note": {
+    "text": "что бы продолжить выполните описанное"
+  },
+  "after_action": {
+    "delay": 0
+  }
+}

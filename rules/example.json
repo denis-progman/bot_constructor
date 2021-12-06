@@ -1,0 +1,46 @@
+{
+  "1":{
+    "base_var": "base_var",
+    "start": {
+      "get_request": "get_request > 0, get_request == 1 && not_done",
+      "once: 21-12-2021 16:00": "not_done, done, base_var>0",
+      "each_hour": "not_done, done, base_var==0",
+      "each_day: 11:00": "not_done, done, base_var<0",
+      "week_days: mon,two,fry 11:00": "not_done, done, !base_var",
+      "month: 12 22:30;": "not_done, done, base_var==1 && base_var2 < 3",
+      "year: 12-03 22:00": "not_done, done, base_var>0 || !base_var2"
+    },
+    "text": "Привет! Добро пожаловать на интенсив-игру от ProgMan",
+    "content": {
+      "url":"",
+      "video":"",
+      "img":"",
+      "track":"",
+      "audio":"",
+      "file":"",
+      "poll": {}
+    },
+    "keys": {
+      "Поехали!": {
+        "action":"to_2, next, open_file_step",
+        "type": "inline; bottom",
+        "code":""
+      }
+    },
+    "phrase": {
+      "|rg: *Привет*": "to_2, next, open_file_step, say: Выполните описанное: \n|text|",
+      "|ii: Привет": "to_2, next, open_file_step, say: Выполните описанное: \n|text|",
+      "|:default":"to_2, next, open_file_step, say: Выполните описанное: \n|text|",
+      "|:code":""
+    },
+    "note": {
+      "text": "что бы продолжить выполните описанное"
+    },
+    "markup":"html; markdown",
+    "code":"",
+    "after_actions": [
+      {"video_message": "file/link"},
+      {"audio_message": "file/link"}
+    ]
+  }
+}

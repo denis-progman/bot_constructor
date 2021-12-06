@@ -1,0 +1,2 @@
+# 24-11-2021 23:28:07 ==> SQLSTATE[HY000] [2002] No such file or directory
+# 24-11-2021 23:28:32 ==> SQLSTATE[HY000] [2002] No such file or directory
