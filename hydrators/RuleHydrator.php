@@ -8,7 +8,7 @@ use BotConstructor\Rule;
 
 class RuleHydrator extends MainHydrator
 {
-    const FULL_NAMES_CLASSES = "BotConstructor\\Rule\\";
+    const NAMESPACE_CLASSES = "BotConstructor\\Rule\\";
 
     private ?Rule $ruleObject = null;
 

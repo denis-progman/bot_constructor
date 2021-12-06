@@ -3,7 +3,7 @@
 namespace BotConstructor\core;
 
 use BotConstructor\core\easy\EasyHelper;
-
+use Exception;
 class MainHydrator
 {
     const NAMESPACE_CLASSES = "";
@@ -12,6 +12,9 @@ class MainHydrator
 
     const PARAMS_MAPPER = [];
 
+    /**
+     * @throws Exception
+     */
     public static function hydrate(array $params, object $model): object {
         foreach ($params as $paramKey => $paramValue){
             $className = EasyHelper::toCamelCase($paramKey, true);
@@ -29,12 +32,13 @@ class MainHydrator
                 self::writeProperty($model, $className, $paramObject);
             }
             elseif (
-                self::checkModelClassExist($className)
+                substr($className, -1) == 's'
+                && self::checkModelClassExist($childClassName = substr($className,0,-1))
                 && is_array($paramValue)
             ) {
                 $arrayObjects = null;
                 foreach ($paramValue as $oneValParam) {
-                    $paramObject = static::reHydrate($oneValParam, $className);
+                    $paramObject = static::reHydrate($oneValParam, $childClassName);
                     $arrayObjects[] = $paramObject;
                 }
                 self::writeProperty($model, $className, $arrayObjects);
@@ -47,18 +51,18 @@ class MainHydrator
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected static function reHydrate(array $param, string $className): object
     {
         $fieldClass = null;
         if (!$fullClassName = static::checkModelClassExist($className)){
-            throw new \Exception("Error: While reHydrate not found class for '$fieldClass'");
+            throw new Exception("Error: While reHydrate not found class for '$fieldClass'");
         }
         return self::hydrate($param, new $fullClassName);
     }
 
-    protected static function writeProperty(object &$model, string $property, $propertyValue): void
+    protected static function writeProperty(object $model, string $property, $propertyValue): void
     {
         if (property_exists($model, lcfirst($property))) {
             $model->{'set' . ucfirst($property)}($propertyValue);

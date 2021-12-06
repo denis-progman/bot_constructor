@@ -28,7 +28,11 @@ echo "<br><br><pre>";
 //$user = (new UserService(1))->getUser();
 //print_r($user);
 //exit();
-//$paramKey= (new RuleService('start:2'))->getRule();
+
+//$check = "students";
+//print_r(substr($check, -1));
+
+$rule = (new RuleService('start:1'))->getRule();
 //print_r($rule);
 //exit();
 
@@ -40,10 +44,10 @@ try {
 
     $bot = new Bot();
     $botAnswer = $bot->getBotAnswer();
-    Loger::log($botAnswer, Loger::WARNING_LEVEL);
-    if ($botAnswer) {
-        exit();
-    }
+//    Loger::log($botAnswer, Loger::WARNING_LEVEL);
+//    if ($botAnswer) {
+//        exit();
+//    }
     if ($botAnswer) {
         $bot->sendChatAction();
         if ($botAnswer->getAnswerType() == BotAnswer::MESSAGE_ANSWER_TYPE) {

@@ -14,12 +14,7 @@ class StepService
     public function __construct(?int $stepId = null) {
         $this->repository = new StepRepository();
         $this->step = new Step();
-        StepHydrator::hydrate($this->repository->getData($stepId), $this->step, [
-            'models/User',
-            'models/Rule',
-            'models/BotAnswer/Message',
-            'models/BotAnswer/CallbackQuery',
-        ]);
+        StepHydrator::hydrate($this->repository->getData($stepId), $this->step);
     }
 
     /**

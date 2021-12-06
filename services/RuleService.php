@@ -35,8 +35,7 @@ class RuleService extends MainService
     {
         RuleHydrator::hydrate(
             self::getRuleFile($file)[$step . ($subStep?"-$subStep":"")],
-            $this->rule,
-            self::getChildClasses()
+            $this->rule
         );
         return $this;
     }

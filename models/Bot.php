@@ -8,6 +8,7 @@ use botConstructor\Bot\BotAnswerService;
 use BotConstructor\core\Loger;
 use BotConstructor\core\ModelFather;
 use BotConstructor\Rule\Button;
+use Exception;
 
 class Bot extends ModelFather
 {
@@ -35,18 +36,18 @@ class Bot extends ModelFather
     private string $requestResult;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(?int $chatId = null/*, bool $inlineKeyboard = true*/)
     {
         $this->botToken = self::$config['token'];
         $this->input = file_get_contents('php://input') ?? null;
         $this->botAnswer = $this->input ? (new BotAnswerService())->setBotAnswer($this->input)->getBotAnswer() : null;
-//        @$this->targetChatId = $chatId ?? (
-//            $this->botAnswer ? (
-//                $this->botAnswer->getMessage() ?
-//                    $this->botAnswer->getMessage()->getChat()->getId() : $this->botAnswer->getCallbackQuery()->getMessage()->getChat()->getId())
-//                : null);
+        @$this->targetChatId = $chatId ?? (
+            $this->botAnswer ? (
+                $this->botAnswer->getMessage() ?
+                    $this->botAnswer->getMessage()->getChat()->getId() : $this->botAnswer->getCallbackQuery()->getMessage()->getChat()->getId())
+                : null);
         $this->sendMethod = self::SEND_MESSAGE_METHOD;
         $this->get_prefix = self::$config['get_prefix'];
 
@@ -136,7 +137,7 @@ class Bot extends ModelFather
     /**
      * @return array|null
      */
-    private function getInputData(): ?array
+    public function getInputData(): ?array
     {
         return json_decode($this->input, true);
     }
@@ -164,11 +165,11 @@ class Bot extends ModelFather
             $this->requestResult =  curl_exec($ch);
             curl_close($ch);
             if (!@$this->requestResult) {
-                throw new \Exception("Empty answer!");
+                throw new Exception("Empty answer!");
             }
             $result = json_decode($this->requestResult, true);
             if (@!$result['ok']) {
-                throw new \Exception($result['description']);
+                throw new Exception($result['description']);
             }
             return $this->requestResult;
         } catch (\Throwable $e) {
@@ -237,7 +238,7 @@ class Bot extends ModelFather
     /**
      * создаем кнопки
      * @param Button[] $buttons
-     * @throws \Exception
+     * @throws Exception
      */
     public function makeButtons(array $buttons)
     {
@@ -247,7 +248,7 @@ class Bot extends ModelFather
                 $this->{"make" . ucfirst($buttonType) . "Buttons"}($button);
                 continue;
             }
-            throw new \Exception("Error: Unknown button type for Bot: '$buttonType'");
+            throw new Exception("Error: Unknown button type for Bot: '$buttonType'");
         }
     }
 
